@@ -37,8 +37,8 @@ def main():
         user_input = input("Enter a command: ")
         command, args = parse_input(user_input)
 
-        if command in ["close", "exit"]:
-            print("Goodbye!")
+        if command in ["good bye", "close", "exit"]:
+            print("Good bye!")
             break
         elif command == "hello":
             print("How can I help you?")
