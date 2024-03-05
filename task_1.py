@@ -1,42 +1,34 @@
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-def get_birthdays_per_week(users):
-    # Prepare data structure to store birthdays by weekday
-    birthdays_per_week = defaultdict(list)
-    
-    # Get current date
+def get_next_birthday(birthday):
     today = datetime.today().date()
+    birthday_this_year = birthday.replace(year=today.year)
     
-    # Iterate through users
+    if birthday_this_year < today:
+        birthday_this_year = birthday_this_year.replace(year=today.year + 1)
+    
+    return birthday_this_year
+
+def get_weekday(date):
+    return date.strftime('%A')
+
+def get_birthdays_per_week(users):
+    birthdays_per_week = defaultdict(list)
+    days_in_week = 7
+    
     for user in users:
-        name = user["name"]
-        birthday = user["birthday"].date()
+        name, birthday = user["name"], user["birthday"].date()
+        birthday_this_year = get_next_birthday(birthday)
+        delta_days = (birthday_this_year - datetime.today().date()).days
+        birthday_weekday = get_weekday(birthday_this_year)
         
-        # Convert birthday to this year
-        birthday_this_year = birthday.replace(year=today.year)
-        
-        # Check if this year's birthday has passed
-        if birthday_this_year < today:
-            # Consider the date for the following year
-            birthday_this_year = birthday_this_year.replace(year=today.year + 1)
-        
-        # Calculate difference in days between birthday and today
-        delta_days = (birthday_this_year - today).days
-        
-        # Determine the weekday of the birthday
-        birthday_weekday = (today + timedelta(days=delta_days)).strftime('%A')
-        
-        # Ensure the birthday is within the next week
-        if delta_days < 7:
-            # If birthday falls on weekend, move it to Monday
+        if delta_days < days_in_week:
             if birthday_weekday in ['Saturday', 'Sunday']:
                 birthday_weekday = 'Monday'
             
-            # Store the username on the corresponding day of the week
             birthdays_per_week[birthday_weekday].append(name)
     
-    # Display the collected names by day of the week
     for day, names in birthdays_per_week.items():
         print(f"{day}: {', '.join(names)}")
 
