@@ -1,43 +1,32 @@
-def parse_input(user_input):
-    """
-    Parses user input and returns a command and its arguments.
-
-    Args:
-        user_input (str): The user's input string.
-
-    Returns:
-        tuple: A tuple containing the command (str) and a list of arguments.
-    """
-    cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
-    return cmd, args
-
-def add_contact(args, contacts):
-    """
-    Adds a contact to the contacts dictionary.
-
-    Args:
-        args (list): A list containing the name and phone number.
-
-    Returns:
-        str: A message indicating whether the contact was added successfully.
-    """
-    if len(args) != 2:
-        return "Invalid input. Please provide a name and phone number."
+def change_contact(args, contacts):
     name, phone = args
-    contacts[name] = phone
-    return "Contact added."
+    if name in contacts:
+        contacts[name] = phone
+        return "Contact updated."
+    else:
+        return "Contact not found."
 
-# Similar updates for other functions...
+def show_phone(args, contacts):
+    name = args[0]
+    if name in contacts:
+        return contacts[name]
+    else:
+        return "Contact not found."
+
+def show_all(contacts):
+    if contacts:
+        return "\n".join([f"{name}: {phone}" for name, phone in contacts.items()])
+    else:
+        return "No contacts found."
 
 def main():
     contacts = {}
     print("Welcome to the assistant bot!")
     while True:
         user_input = input("Enter a command: ")
-        command, args = parse_input(user_input)
+        command, *args = parse_input(user_input)
 
-        if command in ["good bye", "close", "exit"]:
+        if command in ["close", "exit"]:
             print("Good bye!")
             break
         elif command == "hello":
