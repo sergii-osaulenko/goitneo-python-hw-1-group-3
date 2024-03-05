@@ -42,10 +42,10 @@ def get_birthdays_per_week(users):
 
 # Example usage:
 users = [
-    {"name": "Bill Gates", "birthday": datetime(1955, 10, 28)},
-    {"name": "Jan Koum", "birthday": datetime(1976, 2, 24)},
-    {"name": "Kim Kardashian", "birthday": datetime(1980, 10, 21)},
-    {"name": "Jill Valentine", "birthday": datetime(1974, 2, 14)},
+    {"name": "Bill Gates", "birthday": datetime(1955, 3, 7)},
+    {"name": "Jan Koum", "birthday": datetime(1976, 3, 8)},
+    {"name": "Kim Kardashian", "birthday": datetime(1980, 3, 9)},
+    {"name": "Jill Valentine", "birthday": datetime(1974, 3, 10)},
 ]
 
 get_birthdays_per_week(users)
